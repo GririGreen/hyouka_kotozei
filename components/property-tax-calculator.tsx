@@ -125,8 +125,8 @@ const PropertyTaxCalculator = () => {
   const remainingDays = getRemainingDays(selectedDate)
   const totalDaysInYear = getDaysInYear(selectedYear)
   const dailyRate = taxResult.finalTax / totalDaysInYear
-  const sellerPayment = Math.floor(dailyRate * daysFromNewYear)
-  const buyerPayment = Math.floor(dailyRate * remainingDays)
+  const sellerPayment = Math.round(dailyRate * daysFromNewYear)
+  const buyerPayment = Math.round(dailyRate * remainingDays)
 
   return (
     <div className="max-w-6xl mx-auto p-4 bg-white rounded-lg shadow-md">
