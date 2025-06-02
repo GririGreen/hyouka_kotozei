@@ -26,20 +26,29 @@ const PropertyTaxCalculator = () => {
 
   // 建物価格入力処理
   const handleBuildingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value)
-    setBuildingValue(formatted)
+    // 入力中はカンマを取り除いた値を使用
+    const rawValue = e.target.value.replace(/,/g, "")
+    setBuildingValue(rawValue)
   }
 
   // 土地固定資産税課税標準額入力処理
   const handleLandPropertyTaxBaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value)
-    setLandPropertyTaxBase(formatted)
+    // 入力中はカンマを取り除いた値を使用
+    const rawValue = e.target.value.replace(/,/g, "")
+    setLandPropertyTaxBase(rawValue)
   }
 
   // 土地都市計画税課税標準額入力処理
   const handleLandCityPlanningTaxBaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 入力中はカンマを取り除いた値を使用
+    const rawValue = e.target.value.replace(/,/g, "")
+    setLandCityPlanningTaxBase(rawValue)
+  }
+
+  // フォーカスが外れたときにフォーマットを適用する関数を追加
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
     const formatted = formatNumber(e.target.value)
-    setLandCityPlanningTaxBase(formatted)
+    setter(formatted)
   }
 
   // うるう年判定
@@ -183,6 +192,7 @@ const PropertyTaxCalculator = () => {
               type="text"
               value={buildingValue}
               onChange={handleBuildingChange}
+              onBlur={(e) => handleBlur(e, setBuildingValue)}
               className="w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="12,000,000"
             />
@@ -201,6 +211,7 @@ const PropertyTaxCalculator = () => {
                   type="text"
                   value={landPropertyTaxBase}
                   onChange={handleLandPropertyTaxBaseChange}
+                  onBlur={(e) => handleBlur(e, setLandPropertyTaxBase)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="600,000,000"
                 />
@@ -211,6 +222,7 @@ const PropertyTaxCalculator = () => {
                   type="text"
                   value={landCityPlanningTaxBase}
                   onChange={handleLandCityPlanningTaxBaseChange}
+                  onBlur={(e) => handleBlur(e, setLandCityPlanningTaxBase)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   placeholder="1,200,000,000"
                 />
@@ -221,7 +233,8 @@ const PropertyTaxCalculator = () => {
                   <input
                     type="text"
                     value={ownershipNumerator}
-                    onChange={(e) => setOwnershipNumerator(e.target.value)}
+                    onChange={(e) => setOwnershipNumerator(e.target.value.replace(/,/g, ""))}
+                    onBlur={(e) => handleBlur(e, setOwnershipNumerator)}
                     className="w-16 sm:w-20 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-center"
                     placeholder="10"
                   />
@@ -229,7 +242,8 @@ const PropertyTaxCalculator = () => {
                   <input
                     type="text"
                     value={ownershipDenominator}
-                    onChange={(e) => setOwnershipDenominator(e.target.value)}
+                    onChange={(e) => setOwnershipDenominator(e.target.value.replace(/,/g, ""))}
+                    onBlur={(e) => handleBlur(e, setOwnershipDenominator)}
                     className="w-20 sm:w-24 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-center"
                   />
                 </div>
